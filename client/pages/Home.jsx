@@ -35,9 +35,9 @@ export default function Home() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-2xl">
-      <h1 className="text-2xl font-bold mb-10 mt-2 text-center">
-        React To Do App
+    <div className="mx-auto w-full max-w-2xl p-6">
+      <h1 className="text-4xl font-extrabold mb-8 text-center text-gray-800">
+        My Todo App
       </h1>
       <AddTodo onSave={handleSubmit} onSet={setText} text={text} />
       <TodoList
