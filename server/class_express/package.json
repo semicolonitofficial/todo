@@ -1,0 +1,20 @@
+{
+  "name": "express_server",
+  "version": "1.0.0",
+  "description": "node-server",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "js",
+    "node.js",
+    "express.js"
+  ],
+  "author": "semicolonit",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
