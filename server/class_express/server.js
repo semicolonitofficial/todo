@@ -15,8 +15,19 @@ app.use(express.json());
 //   res.send("Home Server is running...");
 // });
 
-app.get("/create", (req, res) => {
-  res.send("Get Api created.");
+app.get("/create/:id", (req, res) => {
+  console.log(req.params.id);
+  const param = req.params.id;
+  console.log(typeof param);
+
+  const data = [
+    { id: "3", name: "gowtam", age: 33 },
+    { id: "4", name: "gowtam", age: 33 },
+  ];
+
+  const newData = data.find((item) => item?.id === param);
+  console.log("newData", newData);
+  res.send(newData);
 });
 
 app.post("/create", (req, res) => {
@@ -29,9 +40,16 @@ app.put("/create", (req, res) => {
   res.send("Put Api created.");
 });
 
-app.delete("/create", (req, res) => {
-  res.send("Delete Api created.");
+app.delete("/create/:id", (req, res) => {
+  const parmas = req.params;
+  console.log("parmas", parmas);
+
+  res.send("Delete Api created.", parmas);
 });
+
+// app.all("/*", (req, res) => {
+//   console.log("Node.js server running..");
+// });
 
 app.listen(port, () => {
   console.log(`Express server running.... http://localhost:${port}`);
