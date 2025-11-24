@@ -15,8 +15,38 @@ app.use(express.json());
 //   res.send("Home Server is running...");
 // });
 
+function validateUserCreation(req, res, next) {
+  const { username, email, password } = req.body;
+
+  // Simple validation
+  if (!username) {
+    return res
+      .status(400)
+      .json({ error: "Username must be at least 3 characters" });
+  }
+
+  if (!email) {
+    return res.status(400).json({ error: "Valid email is required" });
+  }
+
+  if (!password) {
+    return res.send("Password must be at least 6 characters");
+  }
+  // Validation passed
+  next();
+}
+
+app.post("/create", validateUserCreation, (req, res, next) => {
+  console.log("req", req.body);
+
+  res.send(req.body);
+});
+
 app.get("/create/:id", (req, res) => {
   console.log(req.params.id);
+
+  console.log(req.query);
+
   const param = req.params.id;
   console.log(typeof param);
 
@@ -27,12 +57,8 @@ app.get("/create/:id", (req, res) => {
 
   const newData = data.find((item) => item?.id === param);
   console.log("newData", newData);
-  res.send(newData);
-});
 
-app.post("/create", (req, res) => {
-  console.log("req", req.body);
-  res.send(req.body);
+  res.send(newData);
 });
 
 app.put("/create", (req, res) => {
