@@ -1,8 +1,18 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const User = require("./models/user");
 const app = express();
 
 const port = 3900;
 app.use(express.json());
+
+const mongoDBURL =
+  "mongodb+srv://gowtamsemicolonit_db_user:jyRz0PqH2zBnXiHg@cluster0.vpvtd4n.mongodb.net/?appName=Cluster0";
+
+mongoose
+  .connect(mongoDBURL)
+  .then(() => console.log("Database Connection Successful"))
+  .catch((err) => console.error("Connection Error:", err));
 // app.get("/users", (req, res) => {
 //   res.send("users Server is running...");
 // });
@@ -36,7 +46,7 @@ function validateUserCreation(req, res, next) {
   next();
 }
 
-app.post("/create", validateUserCreation, (req, res, next) => {
+app.put("/create", validateUserCreation, (req, res, next) => {
   console.log("req", req.body);
 
   res.send(req.body);
@@ -61,9 +71,13 @@ app.get("/create/:id", (req, res) => {
   res.send(newData);
 });
 
-app.put("/create", (req, res) => {
+app.post("/create", async (req, res) => {
   console.log("req", req.body);
-  res.send("Put Api created.");
+
+  const dbdata = User(req.body);
+
+  const resDATa = await dbdata.save();
+  res.status(201).json({ message: "Data insert successfully done", resDATa });
 });
 
 app.delete("/create/:id", (req, res) => {
