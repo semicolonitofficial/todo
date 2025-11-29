@@ -15,9 +15,27 @@ mongoose
   .then(() => console.log("Database Connection Successful"))
   .catch((err) => console.error("Connection Error:", err));
 
-// app.get("/user", (req, res) => {
-//   res.send("user Server is running...");
-// });
+app.post("/create", async (req, res) => {
+  console.log("req", req.body);
+
+  const dbdata = User(req.body);
+
+  const resData = await dbdata.save();
+
+  res.status(201).json({ resData, message: "Data insert successfully done" });
+});
+
+app.get("/create", async (req, res) => {
+  const find = await User.find();
+  res.status(201).json({ find, message: "Data Get successfully done" });
+});
+
+app.get("/create/:id", async (req, res) => {
+  console.log(req.params.id);
+  const param = req.params.id;
+  const allData = await User.findById(param);
+  res.status(201).json({ allData, message: "Data Get successfully done" });
+});
 
 // app.get("/home", (req, res) => {
 //   res.send("Home Server is running...");
@@ -48,35 +66,6 @@ app.put("/create", validateUserCreation, (req, res, next) => {
   console.log("req", req.body);
 
   res.send(req.body);
-});
-
-app.get("/create/:id", (req, res) => {
-  console.log(req.params.id);
-
-  console.log(req.query);
-
-  const param = req.params.id;
-  console.log(typeof param);
-
-  const data = [
-    { id: "3", name: "gowtam", age: 33 },
-    { id: "4", name: "gowtam", age: 33 },
-  ];
-
-  const newData = data.find((item) => item?.id === param);
-  console.log("newData", newData);
-
-  res.send(newData);
-});
-
-app.post("/create", async (req, res) => {
-  console.log("req", req.body);
-
-  const dbdata = User(req.body);
-
-  const resData = await dbdata.save();
-
-  res.status(201).json({ resData, message: "Data insert successfully done" });
 });
 
 app.delete("/create/:id", (req, res) => {
