@@ -62,17 +62,29 @@ function validateUserCreation(req, res, next) {
   next();
 }
 
-app.put("/create", validateUserCreation, (req, res, next) => {
+app.put("/create/:id", async (req, res, next) => {
   console.log("req", req.body);
 
-  res.send(req.body);
+  const userId = req.params.id;
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    updateData,
+    { new: true, runValidators: true } // Options: return new document, run schema validators
+  );
+
+  res
+    .status(201)
+    .json({ updatedUser, message: "User Data update successfully" });
 });
 
-app.delete("/create/:id", (req, res) => {
-  const parmas = req.params;
-  console.log("parmas", parmas);
+app.delete("/create/:id", async (req, res) => {
+  const parmas = req.params.id;
+  const deleteUser = await User.findByIdAndDelete(parmas);
 
-  res.send("Delete Api created.", parmas);
+  res
+    .status(201)
+    .json({ deleteUser, message: "User Data Delete successfully" });
 });
 
 // app.all("/*", (req, res) => {
@@ -82,3 +94,7 @@ app.delete("/create/:id", (req, res) => {
 app.listen(port, () => {
   console.log(`Express server running.... http://localhost:${port}`);
 });
+
+// name
+// description
+// status
